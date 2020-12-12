@@ -1,0 +1,4 @@
+// 提示文件帮助 Visual Studio IDE 解释 Visual C++ 标识符,
+// 如函数和宏的名称。
+// 有关详细信息，请参见 https://go.microsoft.com/fwlink/?linkid=865984
+#define DECLARE_SERIAL(class_name) _DECLARE_DYNCREATE(class_name) AFX_API friend CArchive& AFXAPI operator>>(CArchive& ar, class_name* &pOb);
