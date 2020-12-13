@@ -50,10 +50,13 @@ private:
 	CPoint m_ptEnd;// 绘制终点
 	UINT m_DrawType;
 
+	COLORREF m_clr;
+
 public:
 	afx_msg void OnFileSave();
 	afx_msg void OnFileOpen();
 	afx_msg void OnRectangle();
+	afx_msg void OnMenuColor();
 };
 
 #ifndef _DEBUG  // DrawView.cpp 中的调试版本

@@ -21,7 +21,7 @@ class Graph :
 public:
     DECLARE_SERIAL(Graph) //(3)使用DECLARE_SERIAL宏
     Graph::Graph(void); //(4)一个无参数的构造函数
-    Graph::Graph(CPoint m_ptOrigin, CPoint m_ptEnd, UINT m_DrawType);
+    Graph::Graph(CPoint m_ptOrigin, CPoint m_ptEnd, UINT m_DrawType, COLORREF m_clr);
     Graph::~Graph();
     void Draw(CDC* pDC);
     void Serialize(CArchive& ar);
@@ -32,6 +32,9 @@ public:
     CPoint m_ptOrigin;
     CPoint m_ptEnd;
     UINT m_DrawType;
+
+    COLORREF m_clr;
+
 };
 
 

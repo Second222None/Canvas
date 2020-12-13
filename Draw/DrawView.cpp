@@ -34,6 +34,7 @@ BEGIN_MESSAGE_MAP(CDrawView, CView)
 	ON_COMMAND(ID_BAR_LINE, &CDrawView::OnLine)
 	ON_COMMAND(ID_RECTANGLE, &CDrawView::OnRectangle)
 	ON_COMMAND(ID_BAR_RECTANGLE, &CDrawView::OnRectangle)
+	ON_COMMAND(ID_MENU_COLOR, &CDrawView::OnMenuColor)
 END_MESSAGE_MAP()
 
 // CDrawView 构造/析构
@@ -44,6 +45,7 @@ CDrawView::CDrawView() noexcept
 	m_ptOrigin = 0;
 	m_ptEnd = 0;
 	m_DrawType = 0;
+	m_clr = RGB(255, 255, 255);
 }
 
 CDrawView::~CDrawView()
@@ -150,7 +152,8 @@ void CDrawView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	CClientDC dc(this);
-	CPen pen(PS_SOLID, 1, RGB(255,255,255));
+	CPen pen(PS_SOLID, 1, m_clr);
+	CPen* oldPen = (CPen*)dc.SelectObject(&pen);
 
 	switch (m_DrawType) {
 	case 1:
@@ -165,8 +168,9 @@ void CDrawView::OnLButtonUp(UINT nFlags, CPoint point)
 	default:
 		break;
 	}
+	dc.SelectObject(oldPen);
 	/* 将图形信息保存起来 */
-	Graph* pGraph = new Graph(m_ptOrigin, point, m_DrawType);
+	Graph* pGraph = new Graph(m_ptOrigin, point, m_DrawType, m_clr);
 	CDrawDoc* pDoc = GetDocument();
 	pDoc->m_obArray.Add(pGraph);
 
@@ -175,6 +179,13 @@ void CDrawView::OnLButtonUp(UINT nFlags, CPoint point)
 
 
 
+void CDrawView::OnMenuColor()
+{
+	// TODO: 在此添加命令处理程序代码
+	
+	CColorDialog dlg(m_clr);
+	if (IDOK == dlg.DoModal()) {
+		m_clr = dlg.GetColor();
+	}
 
-
-
+}

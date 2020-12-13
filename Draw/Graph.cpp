@@ -4,10 +4,11 @@
 IMPLEMENT_SERIAL(Graph, CObject, 1)
 
 /* 构造函数 */
-Graph::Graph(CPoint m_ptOrigin, CPoint m_ptEnd, UINT m_DrawType) {
+Graph::Graph(CPoint m_ptOrigin, CPoint m_ptEnd, UINT m_DrawType, COLORREF m_clr) {
     this->m_ptOrigin = m_ptOrigin;
     this->m_ptEnd = m_ptEnd;
     this->m_DrawType = m_DrawType;
+    this->m_clr = m_clr;
 }
 /* 析构函数 */
 Graph::~Graph(void) {
@@ -20,8 +21,8 @@ Graph::Graph() {
 
 void Graph::Draw(CDC* pDC)
 {
-    //CClientDC dc(this);
-    //CPen pen(PS_SOLID, 1, RGB(255, 255, 255));
+    CPen pen(PS_SOLID, 1, m_clr);
+    CPen* oldPen = pDC->SelectObject(&pen);
 //    CBrush* pBrush = CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
 //    CBrush* pOldBrush = pDC->SelectObject(pBrush);
     switch (m_DrawType)
@@ -45,7 +46,7 @@ void Graph::Draw(CDC* pDC)
         //dc.Ellipse(CRect(m_ptOrigin, m_ptEnd));
         break;
     }
-    //pDC->SelectObject(pOldBrush);
+    pDC->SelectObject(oldPen);
 }
 
 void Graph::Serialize(CArchive& ar) {
@@ -53,10 +54,10 @@ void Graph::Serialize(CArchive& ar) {
     CObject::Serialize(ar);
     if (ar.IsStoring())
     {
-        ar << m_ptOrigin << m_ptEnd << m_DrawType;
+        ar << m_ptOrigin << m_ptEnd << m_DrawType << m_clr;
     }
     else
     {
-        ar >> m_ptOrigin >> m_ptEnd >> m_DrawType;
+        ar >> m_ptOrigin >> m_ptEnd >> m_DrawType >> m_clr;
     }
 }
