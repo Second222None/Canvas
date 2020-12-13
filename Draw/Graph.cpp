@@ -28,9 +28,10 @@ void Graph::Draw(CDC* pDC)
     switch (m_DrawType)
     {
     case 1:
-        pDC->SetPixel(m_ptEnd, RGB(0, 0, 0));
+        pDC->SetPixel(m_ptEnd, m_clr);
         //dc.SetPixel(m_ptEnd, RGB(0, 0, 0));
         break;
+    case 5:
     case 2:
         pDC->MoveTo(m_ptOrigin);
         pDC->LineTo(m_ptEnd);

@@ -35,6 +35,9 @@ BEGIN_MESSAGE_MAP(CDrawView, CView)
 	ON_COMMAND(ID_RECTANGLE, &CDrawView::OnRectangle)
 	ON_COMMAND(ID_BAR_RECTANGLE, &CDrawView::OnRectangle)
 	ON_COMMAND(ID_MENU_COLOR, &CDrawView::OnMenuColor)
+	ON_COMMAND(ID_MENU_QUXIAN, &CDrawView::OnQuxian)
+	ON_COMMAND(ID_BAR_QUXIAN, &CDrawView::OnQuxian)
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // CDrawView 构造/析构
@@ -45,7 +48,7 @@ CDrawView::CDrawView() noexcept
 	m_ptOrigin = 0;
 	m_ptEnd = 0;
 	m_DrawType = 0;
-	m_clr = RGB(255, 255, 255);
+	m_clr = RGB(0, 0, 0);
 }
 
 CDrawView::~CDrawView()
@@ -157,7 +160,7 @@ void CDrawView::OnLButtonUp(UINT nFlags, CPoint point)
 
 	switch (m_DrawType) {
 	case 1:
-		dc.SetPixel(point, RGB(255, 255, 255));
+		dc.SetPixel(point, RGB(0, 0, 0));
 	case 2:
 		dc.MoveTo(m_ptOrigin);
 		dc.LineTo(point);
@@ -188,4 +191,39 @@ void CDrawView::OnMenuColor()
 		m_clr = dlg.GetColor();
 	}
 
+}
+
+
+void CDrawView::OnQuxian()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_DrawType = 5;
+}
+
+
+void CDrawView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	CClientDC dc(this);
+	CPen pen(PS_SOLID, 1, m_clr);
+	CPen* oldPen = (CPen*)dc.SelectObject(&pen);
+
+	if (nFlags == MK_LBUTTON && m_DrawType == 5) {
+		m_ptEnd = point;
+		dc.MoveTo(m_ptOrigin);
+		dc.LineTo(m_ptEnd);
+
+		/* 将图形信息保存起来 */
+		Graph* pGraph = new Graph(m_ptOrigin, m_ptEnd, m_DrawType, m_clr);
+		CDrawDoc* pDoc = GetDocument();
+		pDoc->m_obArray.Add(pGraph);
+
+		m_ptOrigin = m_ptEnd;
+	}
+	
+	dc.SelectObject(oldPen);
+
+	
+
+	CView::OnMouseMove(nFlags, point);
 }

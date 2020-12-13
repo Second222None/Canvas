@@ -35,6 +35,7 @@ public:
 
     COLORREF m_clr;
 
+
 };
 
 

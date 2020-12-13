@@ -57,6 +57,8 @@ public:
 	afx_msg void OnFileOpen();
 	afx_msg void OnRectangle();
 	afx_msg void OnMenuColor();
+	afx_msg void OnQuxian();
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // DrawView.cpp 中的调试版本
